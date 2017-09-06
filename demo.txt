@@ -1,0 +1,94 @@
+${userLoginId}
+
+<#list list4 as list>
+<#if '${list.owner!}' == '${userLoginId}'>
+  <#assign owner = '${userLoginId}'>
+<#else>
+</#if>
+</#list>
+
+
+<#if '${owner!}' == '${userLoginId}'>
+
+<div  id="footer_show">
+        <div class="small-chat-box fadeInRight animated wrapper wrapper-content">
+            <div class="heading" draggable="true">
+                <small class="chat-date pull-right">
+                    ${nowTimestamp?string("YYYY/MM/dd")}
+                </small>
+                今日任务便签
+            </div>
+                <div class="row">
+
+                <a id="footer_show_a" href="\gudao\control\dailyTask" style="text-decoration:underline;">
+                   <p id="footer_show_a_p">任务详情页</p>
+                </a>
+
+                        <div class="ibox-content1">
+
+                            <div class="chat-users-for">
+
+
+                                    <div class="users-list">
+                                        <!-- ${today}
+                                        ${thisToday} -->
+                                        <br />
+                                        <#assign seq>
+                                        <#list dailyTaskRecord6 as dailyTask6>
+                                        ${dailyTask6.taskName}
+                                        </#list>
+                                        </#assign>
+                                        <!-- ${seq} -->
+                                        <#list list4 as a>
+
+                                             <!-- ${a.taskName}
+                                             ${a_index}
+                                             ${list4?size} -->
+
+
+                                            <#if '${seq?contains(a.taskName)?string}' == 'true'>
+                                            <#else>
+                                            <div class="chat-user-for animated" id="animation_box_${a_index}">
+                                                <span class="pull-right label label_footer label-primary" id="upload_task_${a_index}" >完成
+                                                </span>
+
+                                                <div class="chat-user-name">
+                                                    <a href="#"  id="footer_show_a">${a.taskName}</a>
+                                                </div>
+                                                <div style="display: none">
+                                                    <form type="hidden" action="<@ofbizUrl>createDailyTaskRecord</@ofbizUrl>" method="post" name="createDailyTaskRecord" id="createDailyTaskRecordForm" id="saveReportForm" onsubmit="return saveReport();" target="targetIfr">
+                                                        <input type="text" name="owner" value="${a.owner}"/>
+                                                        <input type="text" name="taskName" value="${a.taskName}"/>
+                                                    <button id="online_${a_index}" type="submit">完成</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            </#if>
+
+
+                                        </#list>
+
+
+                                        <iframe name="targetIfr" style="display:none"></iframe> 
+
+
+                                    </div>
+
+                                </div>
+                        </div>
+
+                </div>
+    </div>
+    <div id="small-chat">
+
+            <span class="badge badge-warning pull-right">${list4?size - dailyTaskRecord6?size}</span>
+
+            </a>
+            <button class="btn btn-info btn-circle btn-lg" type="button"><i class="fa fa-check"></i>
+                            </button>
+    </div>
+</div>
+
+
+<#else>
+</#if>
